@@ -12,17 +12,8 @@ df = pd.read_csv(
 df.columns = [
     "Speed",
     "Load",
-    "Lambda",
     "Ignition Angle",
-    "Fuel Cutoff",
-    "Particle Numbers",
-    "CO",
-    "CO2",
-    "HC",
-    "Nox",
-    "O2",
-    "Temp Exhaust",
-    "Temp Catalyst"
+    "Fuel Cutoff"
 ]
 
 

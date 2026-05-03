@@ -1,16 +1,18 @@
 class Config:
 
-    # DATA
     DATA_PATH = "data/raw_000010_measurement_000000.csv"
 
-    # TRAINING
-    BATCH_SIZE = 64
-    EPOCHS = 50
-    LEARNING_RATE = 1e-3
+    INPUT_DIM = 4
 
-    # MODEL
-    INPUT_DIM = 13
-    LATENT_DIM = 32
+    SEQ_LEN = 50
+
+    BATCH_SIZE = 64
+
+    HIDDEN_DIM = 256
+
+    LATENT_DIM = 3
+
+    NUM_LAYERS = 2
 
     # DYNAMICS
     TAU = 1

@@ -9,22 +9,14 @@ from config import Config
 # LOAD CSV
 df = pd.read_csv(
     Config.DATA_PATH,
-    header=None
+    header=None,
+    usecols=[0, 1, 2, 3]
 )
 df.columns = [
     "Speed",
     "Load",
-    "Lambda",
     "Ignition Angle",
-    "Fuel Cutoff",
-    "Particle Numbers",
-    "CO",
-    "CO2",
-    "HC",
-    "Nox",
-    "O2",
-    "Temp Exhaust",
-    "Temp Catalyst"
+    "Fuel Cutoff"
 ]
 
 print(df.head())
@@ -37,36 +29,40 @@ features = features = df.columns.tolist()
 
 
 # CREATE INPUT MATRIX
-X = df.values
+X = df[features].values
 
 
 # DATASET CLASS
 class EngineDataset(Dataset):
 
-    def __init__(self, data, tau=1):
+    def __init__(self, data, seq_len):
 
         self.data = torch.tensor(
             data,
             dtype=torch.float32
         )
 
-        self.tau = tau
+        self.seq_len = seq_len
 
     def __len__(self):
 
-        return len(self.data) - self.tau
+        return len(self.data) - self.seq_len
 
     def __getitem__(self, idx):
 
-        x_t = self.data[idx]
+        x_seq = self.data[
+            idx : idx + self.seq_len
+        ]
 
-        x_next = self.data[idx + self.tau]
+        target = self.data[
+            idx + self.seq_len
+        ]
 
-        return x_t, x_next
+        return x_seq, target
 
 
 # CREATE DATASET
-dataset = EngineDataset(X)
+dataset = EngineDataset(X, seq_len=Config.SEQ_LEN)
 
 
 # CREATE DATALOADER
